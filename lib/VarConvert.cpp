@@ -1,6 +1,6 @@
-#import "StringVarConvert.hpp"
+#include "VarConvert.hpp"
 
-[[maybe_unused]] StringVarConvert::StringVarConvert(const std::string& input) {
+[[maybe_unused]] VarConvert::VarConvert(const std::string& input) {
     try {
         size_t openBracketIndex = input.find('(');
         size_t closeBracketIndex = input.find(')');
@@ -8,19 +8,19 @@
             std::string variableValue = input.substr(0, openBracketIndex);
             std::string variableName = input.substr(openBracketIndex + 1, closeBracketIndex - openBracketIndex - 1);
 
-            size_t scriptIdentifier = variableName.find("S.$.");
+            size_t scriptIdentifier = variableName.find("S.L.");
             if (scriptIdentifier != std::string::npos) {
                 variableName.erase(scriptIdentifier, 4);
             }
 
-            variableValue_ = variableValue;
+            variableValue_ = std::stoi(variableValue);
             variableName_ = variableName;
         }
     } catch (const std::exception& e) {
-        std::cerr << "Invalid input format. Expected '\"Test\" (S.$.String)' but got: " << e.what() << std::endl;
+        std::cerr << "Invalid input format. Expected '300 (S.L.Number)' but got: " << e.what() << std::endl;
     }
 }
 
-[[nodiscard]] std::tuple<std::string, std::string> StringVarConvert::ConvertToStringVar() const {
+[[nodiscard]] std::tuple<int, std::string> VarConvert::ConvertToVariable() const {
     return std::make_tuple(variableValue_, variableName_);
 }
