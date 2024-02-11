@@ -1,20 +1,27 @@
 #include <iostream>
 #include <string>
 #include <tuple>
-#include "lib/VarConvert.hpp"
-#include "lib/StringVarConvert.hpp"
+#include "include/variables.h"
+
+
 
 int main() {
-    // Example usage
-    VarConvert converter("300 (S.L.Number)");
-    auto result = converter.ConvertToVariable();
-    std::cout << "Numeric value: " << std::get<0>(result) << std::endl;
-    std::cout << "Variable name: " << std::get<1>(result) << std::endl;
+    Variables var("300 (S.L.Number)");
+    auto intResult = var.convertToFloat();
 
-    StringVarConvert stringConverter("\"Hello\" (S.$.String)");
-    auto stringResult = stringConverter.ConvertToStringVar();
-    std::cout << "String value: " << std::get<0>(stringResult) << std::endl;
-    std::cout << "Variable name: " << std::get<1>(stringResult) << std::endl;
+    std::cout << "Variable Name: " << std::get<0>(intResult) << std::endl;
+    std::cout << "Value: " << std::get<1>(intResult) << std::endl;
 
-    return 0;
+    Variables floatVar("0.5 (S.L.FloatNumber)");
+    auto floatResult = floatVar.convertToFloat();
+
+    std::cout << "Variable Name: " << std::get<0>(floatResult) << std::endl;
+    std::cout << "Value: " << std::get<1>(floatResult) << std::endl;
+
+    Variables stringVar("\"Hello\" (S.$.String)");
+    auto stringResult = stringVar.convertToString();
+
+    std::cout << "Variable Name: " << std::get<0>(stringResult) << std::endl;
+    std::cout << "Value: " << std::get<1>(stringResult) << std::endl;
+
 }
